@@ -65,20 +65,13 @@ with tab5:
 
     Penyakit kardiovaskular, khususnya serangan jantung (heart attack), merupakan salah satu penyebab utama kematian di dunia dan menjadi masalah kesehatan yang serius, termasuk di Indonesia. Serangan jantung sering kali terjadi secara tiba-tiba, namun pada umumnya dipengaruhi oleh berbagai faktor risiko klinis seperti usia, tekanan darah, indeks massa tubuh, kebiasaan merokok, serta riwayat penyakit penyerta lainnya. Oleh karena itu, deteksi dini terhadap risiko serangan jantung menjadi langkah penting dalam upaya pencegahan dan penanganan yang lebih efektif.
 
-Perkembangan teknologi di bidang data science dan machine learning memungkinkan pemanfaatan data kesehatan dalam jumlah besar untuk melakukan analisis prediktif. Dengan memanfaatkan data klinis pasien, machine learning dapat digunakan untuk mengidentifikasi pola tersembunyi yang sulit dideteksi melalui analisis konvensional. Pendekatan ini diharapkan mampu membantu tenaga medis maupun peneliti dalam memprediksi risiko serangan jantung secara lebih akurat dan objektif.
+    Perkembangan teknologi di bidang data science dan machine learning memungkinkan pemanfaatan data kesehatan dalam jumlah besar untuk melakukan analisis prediktif. Dengan memanfaatkan data klinis pasien, machine learning dapat digunakan untuk mengidentifikasi pola tersembunyi yang sulit dideteksi melalui analisis konvensional. Pendekatan ini diharapkan mampu membantu tenaga medis maupun peneliti dalam memprediksi risiko serangan jantung secara lebih akurat dan objektif.
 
-Pada penelitian ini digunakan dataset kesehatan yang berisi puluhan ribu data pasien dengan berbagai variabel klinis, antara lain jenis kelamin, usia, indeks massa tubuh (BMI), status perokok, tekanan darah sistolik, riwayat pengobatan hipertensi, riwayat penyakit kardiovaskular dalam keluarga, atrial fibrilasi, penyakit ginjal kronis, diabetes, penyakit paru obstruktif kronis (COPD), serta beberapa variabel medis lainnya. Dataset ini juga memiliki label target berupa kejadian serangan jantung (heart_attack) yang diklasifikasikan menjadi dua kelas, yaitu pasien yang mengalami serangan jantung dan pasien yang tidak mengalami serangan jantung.
-
-Sebelum dilakukan pemodelan, data melalui tahap pra-pemrosesan, termasuk pembersihan data dan deteksi outlier, untuk mengurangi pengaruh nilai ekstrem yang dapat menurunkan performa model. Proses ini penting mengingat data medis sering kali mengandung ketidakteraturan yang dapat mempengaruhi hasil analisis jika tidak ditangani dengan baik.
-
-Penelitian ini menerapkan pendekatan klasifikasi (supervised learning) dengan membandingkan beberapa algoritma machine learning, yaitu Logistic Regression, Random Forest, Gradient Boosting, Decision Tree, K-Nearest Neighbor (KNN), dan Naive Bayes. Pemilihan beberapa algoritma ini bertujuan untuk mengetahui perbedaan performa masing-masing metode dalam memprediksi risiko serangan jantung berdasarkan data klinis pasien, serta untuk menentukan algoritma yang memberikan hasil paling optimal dari sisi akurasi dan kemampuan mengenali kasus berisiko tinggi.
-
-Selain analisis model, hasil penelitian ini juga diimplementasikan dalam bentuk aplikasi berbasis web menggunakan Streamlit. Aplikasi ini dirancang untuk menampilkan proses analisis data, perbandingan performa model, serta fitur prediksi risiko serangan jantung secara interaktif. Dengan adanya aplikasi ini, hasil penelitian tidak hanya bersifat teoritis, tetapi juga dapat digunakan sebagai alat bantu analisis awal berbasis data.
-
-Berdasarkan latar belakang tersebut, penelitian ini diharapkan dapat memberikan kontribusi dalam pemanfaatan machine learning untuk prediksi risiko kesehatan, khususnya serangan jantung, serta menjadi referensi dalam pengembangan sistem pendukung keputusan di bidang kesehatan berbasis data.
-    SUMBER DATA
+    Dataset ini memiliki label target berupa kejadian serangan jantung (heart_attack) yang diklasifikasikan menjadi dua kelas.
+    
+    SUMBER DATA  
     https://www.kaggle.com/datasets/headsetbagus12/heart-attack-csv-dataset
-                """)
+    """)
 
     st.markdown("## 🧪 Metodologi Singkat")
     st.markdown("""
@@ -89,6 +82,50 @@ Berdasarkan latar belakang tersebut, penelitian ini diharapkan dapat memberikan 
     5. Evaluasi performa model
     6. Implementasi ke aplikasi Streamlit
     """)
+
+    # =========================================
+    # TAMBAHAN TOMBOL LANGKAH-LANGKAH PROCESSING
+    # =========================================
+    st.markdown("## ⚙️ Proses Pengolahan Data")
+
+    if st.button("🔍 Tampilkan Langkah-Langkah Processing"):
+        with st.expander("📌 Detail Tahapan Processing Data & Machine Learning", expanded=True):
+            st.markdown("""
+            ### 1️⃣ Data Collection
+            - Dataset diambil dari Kaggle
+            - Berisi data klinis dan label `heart_attack`
+
+            ### 2️⃣ Data Cleaning
+            - Menghapus data duplikat
+            - Menangani missing value
+            - Standarisasi fitur numerik
+
+            ### 3️⃣ Outlier Detection
+            - Deteksi nilai ekstrem pada:
+              - Usia
+              - Tekanan darah sistolik
+              - BMI
+
+            ### 4️⃣ Feature Selection
+            - Memilih fitur klinis paling relevan
+
+            ### 5️⃣ Data Splitting
+            - Data latih dan data uji
+
+            ### 6️⃣ Model Training
+            - Logistic Regression
+            - Random Forest
+            - Decision Tree
+            - KNN
+            - Naive Bayes
+
+            ### 7️⃣ Model Evaluation
+            - Akurasi
+            - Recall
+
+            ### 8️⃣ Deployment
+            - Implementasi model terbaik ke Streamlit
+            """)
 
     st.subheader("📊 Laporan Hasil Analisis (Summary Report)")
 
@@ -126,9 +163,9 @@ Berdasarkan latar belakang tersebut, penelitian ini diharapkan dapat memberikan 
 
         st.markdown("""
         ### 📢 Kesimpulan
-        - **Random Forest** memberikan performa terbaik dengan akurasi **91.2%**
-        - Usia dan tekanan darah sistolik merupakan faktor dominan
-        - Model dapat digunakan sebagai alat bantu analisis risiko awal
+        - Random Forest memberikan performa terbaik
+        - Faktor usia dan tekanan darah dominan
+        - Model layak digunakan sebagai alat bantu awal
         """)
 
         st.download_button(
