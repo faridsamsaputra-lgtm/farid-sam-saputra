@@ -17,14 +17,16 @@ st.write('Semarang, 25 Desember 2025')
 # =========================================
 # Tabs
 # =========================================
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+tab1, tab2, tab3, tab_rf, tab4, tab5, tab6 = st.tabs([
     'About Dataset', 
     'Dashboards', 
     'Machine Learning',
+    'Model Random Forest',
     'Prediction App',
     'Report Analysis', 
     'Contact Me'
 ])
+
 
 # =========================================
 # TAB 1
@@ -46,6 +48,148 @@ with tab2:
 with tab3:
     import machine_learning
     machine_learning.ml_model()
+
+# =========================================
+# TAB RANDOM FOREST (STATISTIK & SISTEMATIS)
+# =========================================
+with tab_rf:
+    st.markdown("## 🌳 Model Random Forest")
+    st.markdown("### Alur & Langkah Perhitungan Sistematis Secara Statistik")
+
+    st.markdown("""
+    ## 1️⃣ Representasi Dataset Secara Statistik
+
+    Dataset dinyatakan sebagai:
+
+    D = {(x₁, y₁), (x₂, y₂), ..., (xₙ, yₙ)}
+
+    dengan:
+    - xᵢ = vektor fitur klinis (usia, tekanan darah, kolesterol, BMI, dll)
+    - yᵢ ∈ {0,1} → label serangan jantung
+    - n = jumlah pasien
+    """)
+
+    st.markdown("""
+    ## 2️⃣ Bootstrap Sampling (Pendekatan Statistik)
+
+    Untuk setiap pohon ke-b, Random Forest melakukan pengambilan sampel:
+
+    Dᵦ ~ Bootstrap(D)
+
+    Artinya:
+    - Data diambil secara acak dengan pengembalian
+    - Ukuran sampel tetap n
+    - Beberapa data dapat terpilih berulang
+
+    Secara statistik, metode ini mendekati distribusi populasi dan
+    menurunkan varians model.
+    """)
+
+    st.markdown("""
+    ## 3️⃣ Pemilihan Fitur Acak (Random Subspace)
+
+    Pada setiap node pohon, dipilih m fitur acak dari total p fitur:
+
+    m = √p   (untuk klasifikasi)
+
+    Tujuan statistik:
+    - Mengurangi korelasi antar pohon
+    - Meningkatkan generalisasi model
+    """)
+
+    st.markdown("""
+    ## 4️⃣ Pembentukan Decision Tree (Kriteria Gini)
+
+    Setiap node dihitung nilai impurity menggunakan Gini Index:
+
+    Gini(t) = 1 − Σ(pₖ²)
+
+    dimana pₖ adalah proporsi kelas ke-k.
+
+    Penurunan impurity dihitung dengan:
+
+    ΔGini = Gini(parent) − [(nL/n)·Gini(L) + (nR/n)·Gini(R)]
+
+    Split terbaik adalah yang memiliki ΔGini terbesar.
+    """)
+
+    st.markdown("""
+    ## 5️⃣ Pembentukan Ensemble (Hutan Acak)
+
+    Setelah proses di atas, terbentuk kumpulan pohon:
+
+    {T₁, T₂, ..., Tᴮ}
+
+    Setiap pohon:
+    - Dibangun dari data bootstrap
+    - Menggunakan fitur acak
+    - Memiliki struktur berbeda
+
+    Pendekatan ensemble ini menurunkan risiko overfitting.
+    """)
+
+    st.markdown("""
+    ## 6️⃣ Prediksi Setiap Pohon
+
+    Untuk satu data uji x:
+
+    ŷᵦ = Tᵦ(x)
+
+    dengan:
+    - ŷᵦ ∈ {0,1}
+    """)
+
+    st.markdown("""
+    ## 7️⃣ Majority Voting (Agregasi Statistik)
+
+    Prediksi akhir ditentukan dengan voting mayoritas:
+
+    ŷ = 1, jika Σŷᵦ > B/2  
+    ŷ = 0, jika sebaliknya
+
+    Prinsip statistik:
+    - Hukum bilangan besar
+    - Kesalahan individual antar pohon saling menetralkan
+    """)
+
+    st.markdown("""
+    ## 8️⃣ Evaluasi Model (Statistik Klasifikasi)
+
+    Confusion Matrix:
+    - TP: True Positive
+    - TN: True Negative
+    - FP: False Positive
+    - FN: False Negative
+    """)
+
+    st.markdown("""
+    ### Akurasi
+    Accuracy = (TP + TN) / (TP + TN + FP + FN)
+
+    ### Recall (Sensitivitas)
+    Recall = TP / (TP + FN)
+
+    Recall menjadi metrik utama karena FN berbahaya
+    dalam konteks medis.
+    """)
+
+    st.markdown("""
+    ## 9️⃣ Feature Importance (Kontribusi Variabel)
+
+    Feature importance dihitung dari rata-rata penurunan Gini:
+
+    Importance(j) = (1/B) · Σ Σ ΔGini(j)
+
+    Menunjukkan variabel paling berpengaruh
+    dalam prediksi serangan jantung.
+    """)
+
+    st.success("""
+    ✔ Random Forest terbukti memberikan akurasi dan recall tertinggi  
+    ✔ Cocok untuk data kesehatan multivariat  
+    ✔ Digunakan sebagai model utama dalam penelitian ini
+    """)
+
 
 # =========================================
 # TAB 4
@@ -93,7 +237,7 @@ with tab5:
             st.markdown("""
             ### 1️⃣ Data Collection
             - Dataset diambil dari Kaggle
-            - Berisi data klinis dan label `heart_attack`
+            - Berisi data klinis dan label
 
             ### 2️⃣ Data Cleaning
             - Menghapus data duplikat
