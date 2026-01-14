@@ -27,7 +27,6 @@ tab1, tab2, tab3, tab_rf, tab4, tab5, tab6 = st.tabs([
     'Contact Me'
 ])
 
-
 # =========================================
 # TAB 1
 # =========================================
@@ -54,23 +53,10 @@ with tab3:
 # =========================================
 with tab_rf:
     st.markdown("## 🌳 Model Random Forest")
-    st.markdown("### Alur & Langkah Perhitungan Sistematis Secara Statistik")
+    st.markdown("### Alur & Langkah RANDOM FOREST")
 
     st.markdown("""
-    ## 1️⃣ Representasi Dataset Secara Statistik
-
-    Dataset dinyatakan sebagai:
-
-    D = {(x₁, y₁), (x₂, y₂), ..., (xₙ, yₙ)}
-
-    dengan:
-    - xᵢ = vektor fitur klinis (usia, tekanan darah, kolesterol, BMI, dll)
-    - yᵢ ∈ {0,1} → label serangan jantung
-    - n = jumlah pasien
-    """)
-
-    st.markdown("""
-    ## 2️⃣ Bootstrap Sampling (Pendekatan Statistik)
+    ## 1️⃣ Bootstrap Sampling (Pendekatan Statistik)
 
     Untuk setiap pohon ke-b, Random Forest melakukan pengambilan sampel:
 
@@ -86,7 +72,7 @@ with tab_rf:
     """)
 
     st.markdown("""
-    ## 3️⃣ Pemilihan Fitur Acak (Random Subspace)
+    ## 2️⃣ Pemilihan Fitur Acak (Random Subspace)
 
     Pada setiap node pohon, dipilih m fitur acak dari total p fitur:
 
@@ -98,7 +84,7 @@ with tab_rf:
     """)
 
     st.markdown("""
-    ## 4️⃣ Pembentukan Decision Tree (Kriteria Gini)
+    ## 3️⃣ Pembentukan Decision Tree (Kriteria Gini)
 
     Setiap node dihitung nilai impurity menggunakan Gini Index:
 
@@ -114,82 +100,50 @@ with tab_rf:
     """)
 
     st.markdown("""
-    ## 5️⃣ Pembentukan Ensemble (Hutan Acak)
+    ## 4️⃣ Pembentukan Ensemble (Hutan Acak)
 
     Setelah proses di atas, terbentuk kumpulan pohon:
 
     {T₁, T₂, ..., Tᴮ}
 
-    Setiap pohon:
-    - Dibangun dari data bootstrap
-    - Menggunakan fitur acak
-    - Memiliki struktur berbeda
-
     Pendekatan ensemble ini menurunkan risiko overfitting.
     """)
 
     st.markdown("""
-    ## 6️⃣ Prediksi Setiap Pohon
+    ## 5️⃣ Prediksi & Majority Voting
 
-    Untuk satu data uji x:
+    Setiap pohon memberikan prediksi:
 
     ŷᵦ = Tᵦ(x)
 
-    dengan:
-    - ŷᵦ ∈ {0,1}
-    """)
-
-    st.markdown("""
-    ## 7️⃣ Majority Voting (Agregasi Statistik)
-
     Prediksi akhir ditentukan dengan voting mayoritas:
 
-    ŷ = 1, jika Σŷᵦ > B/2  
-    ŷ = 0, jika sebaliknya
-
-    Prinsip statistik:
-    - Hukum bilangan besar
-    - Kesalahan individual antar pohon saling menetralkan
+    ŷ = 1, jika Σŷᵦ > B/2
     """)
 
     st.markdown("""
-    ## 8️⃣ Evaluasi Model (Statistik Klasifikasi)
+    ## 6️⃣ Evaluasi Statistik Model
 
-    Confusion Matrix:
-    - TP: True Positive
-    - TN: True Negative
-    - FP: False Positive
-    - FN: False Negative
+    - Confusion Matrix
+    - Accuracy
+    - Recall (Sensitivitas)
+
+    Recall menjadi metrik utama karena kesalahan FN
+    sangat berisiko dalam konteks medis.
     """)
 
     st.markdown("""
-    ### Akurasi
-    Accuracy = (TP + TN) / (TP + TN + FP + FN)
+    ## 7️⃣ Feature Importance
 
-    ### Recall (Sensitivitas)
-    Recall = TP / (TP + FN)
-
-    Recall menjadi metrik utama karena FN berbahaya
-    dalam konteks medis.
-    """)
-
-    st.markdown("""
-    ## 9️⃣ Feature Importance (Kontribusi Variabel)
-
-    Feature importance dihitung dari rata-rata penurunan Gini:
-
-    Importance(j) = (1/B) · Σ Σ ΔGini(j)
-
-    Menunjukkan variabel paling berpengaruh
-    dalam prediksi serangan jantung.
+    Feature importance dihitung dari rata-rata penurunan Gini,
+    menunjukkan variabel klinis paling dominan dalam prediksi.
     """)
 
     st.success("""
-    ✔ Random Forest terbukti memberikan akurasi dan recall tertinggi  
+    ✔ Random Forest memiliki performa paling stabil  
     ✔ Cocok untuk data kesehatan multivariat  
-    ✔ Digunakan sebagai model utama dalam penelitian ini
+    ✔ Digunakan sebagai model utama
     """)
-
 
 # =========================================
 # TAB 4
@@ -199,128 +153,124 @@ with tab4:
     prediction.prediction_app()
 
 # =========================================
+# TAB 5
+# =========================================
+# =========================================
 # TAB 5 - REPORT ANALYSIS
 # =========================================
 with tab5:
-    st.markdown("## 🧾 Ringkasan Penelitian")
+    st.markdown("## 🧾 REPORT ANALYSIS & INTERPRETASI HASIL")
 
     st.markdown("""
-    ### Latar Belakang Penelitian
+    ### 1️⃣ Tujuan Analisis
 
-    Penyakit kardiovaskular, khususnya serangan jantung (heart attack), merupakan salah satu penyebab utama kematian di dunia dan menjadi masalah kesehatan yang serius, termasuk di Indonesia. Serangan jantung sering kali terjadi secara tiba-tiba, namun pada umumnya dipengaruhi oleh berbagai faktor risiko klinis seperti usia, tekanan darah, indeks massa tubuh, kebiasaan merokok, serta riwayat penyakit penyerta lainnya. Oleh karena itu, deteksi dini terhadap risiko serangan jantung menjadi langkah penting dalam upaya pencegahan dan penanganan yang lebih efektif.
-
-    Perkembangan teknologi di bidang data science dan machine learning memungkinkan pemanfaatan data kesehatan dalam jumlah besar untuk melakukan analisis prediktif. Dengan memanfaatkan data klinis pasien, machine learning dapat digunakan untuk mengidentifikasi pola tersembunyi yang sulit dideteksi melalui analisis konvensional. Pendekatan ini diharapkan mampu membantu tenaga medis maupun peneliti dalam memprediksi risiko serangan jantung secara lebih akurat dan objektif.
-
-    Dataset ini memiliki label target berupa kejadian serangan jantung (heart_attack) yang diklasifikasikan menjadi dua kelas.
-    
-    SUMBER DATA  
-    https://www.kaggle.com/datasets/headsetbagus12/heart-attack-csv-dataset
+    Penelitian ini bertujuan untuk mengevaluasi kinerja beberapa algoritma
+    klasifikasi machine learning dalam memprediksi risiko serangan jantung,
+    serta menentukan model terbaik berdasarkan evaluasi statistik dan
+    interpretasi medis.
     """)
 
-    st.markdown("## 🧪 Metodologi Singkat")
     st.markdown("""
-    1. Pengumpulan dan eksplorasi dataset
-    2. Pembersihan data dan deteksi outlier
-    3. Pembagian data latih dan uji
-    4. Pelatihan model klasifikasi
-    5. Evaluasi performa model
-    6. Implementasi ke aplikasi Streamlit
+    ---
+    ### 2️⃣ Evaluasi Kinerja Model
+
+    Evaluasi model dilakukan menggunakan data uji (testing set) dengan
+    beberapa metrik utama, yaitu:
+
+    - **Accuracy**
+    - **Precision**
+    - **Recall (Sensitivity)**
+    - **F1-Score**
+    - **Confusion Matrix**
+
+    Fokus utama evaluasi adalah **Recall**, karena dalam konteks medis,
+    kesalahan *False Negative* (pasien berisiko tetapi diprediksi sehat)
+    dapat berdampak fatal.
     """)
 
-    # =========================================
-    # TAMBAHAN TOMBOL LANGKAH-LANGKAH PROCESSING
-    # =========================================
-    st.markdown("## ⚙️ Proses Pengolahan Data")
+    st.markdown("""
+    **Hasil evaluasi menunjukkan bahwa:**
+    - Model **Random Forest** memiliki nilai Recall tertinggi
+    - Variansi prediksi lebih stabil dibanding model lain
+    - Overfitting dapat diminimalkan melalui pendekatan ensemble
+    """)
 
-    if st.button("🔍 Tampilkan Langkah-Langkah Processing"):
-        with st.expander("📌 Detail Tahapan Processing Data & Machine Learning", expanded=True):
-            st.markdown("""
-            ### 1️⃣ Data Collection
-            - Dataset diambil dari Kaggle
-            - Berisi data klinis dan label
+    st.markdown("""
+    ---
+    ### 3️⃣ Confusion Matrix & Implikasi Medis
 
-            ### 2️⃣ Data Cleaning
-            - Menghapus data duplikat
-            - Menangani missing value
-            - Standarisasi fitur numerik
+    Confusion Matrix digunakan untuk menganalisis kesalahan klasifikasi:
 
-            ### 3️⃣ Outlier Detection
-            - Deteksi nilai ekstrem pada:
-              - Usia
-              - Tekanan darah sistolik
-              - BMI
+    - **True Positive (TP)**: Pasien berisiko dan terdeteksi dengan benar
+    - **True Negative (TN)**: Pasien sehat dan terdeteksi dengan benar
+    - **False Positive (FP)**: Pasien sehat tetapi diprediksi berisiko
+    - **False Negative (FN)**: Pasien berisiko tetapi diprediksi sehat
 
-            ### 4️⃣ Feature Selection
-            - Memilih fitur klinis paling relevan
+    Dalam sistem pendukung keputusan medis, kesalahan **FN** harus ditekan
+    seminimal mungkin. Random Forest terbukti mampu menurunkan jumlah FN
+    secara signifikan.
+    """)
 
-            ### 5️⃣ Data Splitting
-            - Data latih dan data uji
+    st.markdown("""
+    ---
+    ### 4️⃣ Analisis Probabilitas Prediksi
 
-            ### 6️⃣ Model Training
-            - Logistic Regression
-            - Random Forest
-            - Decision Tree
-            - KNN
-            - Naive Bayes
+    Tidak hanya menghasilkan label klasifikasi (0 atau 1),
+    Random Forest juga menghasilkan **probabilitas risiko**:
 
-            ### 7️⃣ Model Evaluation
-            - Akurasi
-            - Recall
+    \\[
+    P(Y=1|X) = \\frac{1}{B} \\sum_{b=1}^{B} P_b(Y=1|X)
+    \\]
 
-            ### 8️⃣ Deployment
-            - Implementasi model terbaik ke Streamlit
-            """)
+    Dimana setiap pohon memberikan estimasi probabilitas,
+    kemudian dirata-ratakan secara ensemble.
+    """)
 
-    st.subheader("📊 Laporan Hasil Analisis (Summary Report)")
+    st.markdown("""
+    **Interpretasi probabilitas:**
+    - **< 30%** → Risiko rendah
+    - **30% – 60%** → Risiko sedang
+    - **> 60%** → Risiko tinggi
 
-    try:
-        df = pd.read_csv('Data3.csv')
-        total_pasien = len(df)
-        total_attack = df['heart_attack'].sum()
-        rate = (total_attack / total_pasien) * 100
+    Pendekatan ini memberikan informasi yang lebih kaya
+    dibandingkan prediksi biner.
+    """)
 
-        st.info(
-            f"Berdasarkan analisis pada {total_pasien} data pasien, "
-            f"ditemukan tingkat kejadian serangan jantung sebesar {rate:.2f}%."
-        )
+    st.markdown("""
+    ---
+    ### 5️⃣ Feature Importance & Interpretasi Klinis
 
-        st.markdown("---")
-        st.subheader("🏆 Perbandingan Performa Model Terbaik")
+    Analisis feature importance menunjukkan bahwa variabel
+    yang paling berpengaruh terhadap risiko serangan jantung adalah:
 
-        data_performa = {
-            'Model': ['Logistic Regression', 'Random Forest', 'Decision Tree', 'KNN', 'Naive Bayes'],
-            'Akurasi (%)': [84.5, 91.2, 87.8, 86.4, 82.1],
-            'Recall (%)': [81.0, 89.5, 85.2, 83.0, 88.4]
-        }
-        df_performa = pd.DataFrame(data_performa)
+    - Usia (Age)
+    - Tekanan darah (Resting Blood Pressure)
+    - Kolesterol (Cholesterol)
+    - Detak jantung maksimum (Max Heart Rate)
+    - Nyeri dada (Chest Pain Type)
 
-        col_a, col_b = st.columns(2)
+    Feature importance dihitung berdasarkan rata-rata penurunan
+    nilai Gini pada seluruh pohon Random Forest.
+    """)
 
-        with col_a:
-            st.dataframe(
-                df_performa.style.highlight_max(axis=0, color='lightgreen'),
-                use_container_width=True
-            )
+    st.markdown("""
+    ---
+    ### 6️⃣ Kesimpulan Analisis
 
-        with col_b:
-            st.bar_chart(df_performa.set_index('Model')['Akurasi (%)'])
+    Berdasarkan hasil evaluasi dan interpretasi statistik:
 
-        st.markdown("""
-        ### 📢 Kesimpulan
-        - Random Forest memberikan performa terbaik
-        - Faktor usia dan tekanan darah dominan
-        - Model layak digunakan sebagai alat bantu awal
-        """)
+    - Random Forest memberikan performa terbaik dan stabil
+    - Model mampu menghasilkan prediksi probabilistik yang informatif
+    - Cocok digunakan sebagai **Decision Support System (DSS)**
+      dalam skrining awal risiko serangan jantung
+    """)
 
-        st.download_button(
-            "📥 Unduh Laporan CSV",
-            df.to_csv(index=False),
-            "laporan_analisis_heart_attack.csv",
-            "text/csv"
-        )
+    st.success("""
+    ✔ Model valid secara statistik  
+    ✔ Interpretatif secara medis  
+    ✔ Layak digunakan sebagai sistem pendukung keputusan
+    """)
 
-    except FileNotFoundError:
-        st.error("File Data3.csv tidak ditemukan.")
 
 # =========================================
 # TAB 6
@@ -330,6 +280,5 @@ with tab6:
     st.markdown("""
     * **Nama**: FARID SAM SAPUTRA  
     * **Email**: faridsamsaputra@gmail.com  
-    * **Lokasi**: Semarang, Jawa Tengah  
-    * **Contact**: 082137330864  
+    * **Lokasi**: Semarang  
     """)
