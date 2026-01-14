@@ -7,10 +7,9 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
-
 
 from sklearn.metrics import (
     accuracy_score,
@@ -22,6 +21,7 @@ from sklearn.metrics import (
 
 from imblearn.over_sampling import SMOTE
 import joblib
+import matplotlib.pyplot as plt
 
 
 def ml_model():
@@ -133,28 +133,33 @@ def ml_model():
         st.write(pd.Series(y_train_sm).value_counts())
 
     # ==============================
-    # 7. Sidebar Model Selection (FIXED KEY)
+    # 7. Model Selection
     # ==============================
     st.sidebar.title("Pemilihan Model")
 
     selected_model = st.sidebar.radio(
         "Pilih Model Klasifikasi",
         (
+            "Random Forest (Inferensi Utama)",
             "Logistic Regression",
-            "Random Forest",
             "Decision Tree",
             "KNN",
             "Naive Bayes"
-        ),
-        key="radio_model_selector"  # <<< FIX ERROR
+        )
     )
 
-    if selected_model == "Logistic Regression":
+    if selected_model == "Random Forest (Inferensi Utama)":
+        model = RandomForestClassifier(
+            n_estimators=200,
+            max_depth=8,
+            min_samples_split=10,
+            min_samples_leaf=5,
+            random_state=42
+        )
+    elif selected_model == "Logistic Regression":
         model = LogisticRegression(max_iter=1000)
-    elif selected_model == "Random Forest":
-        model = RandomForestClassifier(random_state=42)
     elif selected_model == "Decision Tree":
-        model = DecisionTreeClassifier(random_state=42)
+        model = DecisionTreeClassifier(random_state=42, max_depth=4)
     elif selected_model == "KNN":
         model = KNeighborsClassifier(n_neighbors=5)
     else:
@@ -200,14 +205,47 @@ def ml_model():
         st.metric("Precision", f"{precision_score(y_test, y_pred)*100:.2f}%")
         st.metric("Recall", f"{recall_score(y_test, y_pred)*100:.2f}%")
         st.metric("ROC AUC", f"{roc*100:.2f}%")
+    
+        # ==============================
+    # 9A. VISUALISASI POHON KEPUTUSAN DARI RANDOM FOREST
+    # ==============================
+    if selected_model == "Random Forest (Inferensi Utama)":
+
+        st.subheader("🌳 Visualisasi Pohon Keputusan (Salah Satu Tree dari Random Forest)")
+
+        # Ambil satu pohon dari Random Forest
+        tree = model.estimators_[0]
+
+        fig, ax = plt.subplots(figsize=(22, 10))
+
+        plot_tree(
+            tree,
+            feature_names=X.columns,
+            class_names=["No Heart Attack", "Heart Attack"],
+            filled=True,
+            rounded=True,
+            max_depth=3,   # dibatasi agar terbaca
+            ax=ax
+        )
+
+        st.pyplot(fig)
+
+        st.caption(
+            "Visualisasi ini menampilkan salah satu pohon keputusan yang membentuk "
+            "Random Forest. Prediksi akhir Random Forest merupakan agregasi "
+            "dari seluruh pohon keputusan."
+        )
+
 
     # ==============================
-    # 10. Save Model
+    # 10. Save Model (INFERENSI RF)
     # ==============================
-    joblib.dump(model, f"model_{selected_model.replace(' ', '_').lower()}.pkl")
-    joblib.dump(X.columns, "model_features.pkl")
+    joblib.dump(model, "model_random_forest.pkl")
+    joblib.dump(X.columns.tolist(), "model_features.pkl")
+    joblib.dump(scaler, "scaler.pkl")
+    joblib.dump(numeric_cols, "numeric_columns.pkl")
 
-    st.info("Model berhasil disimpan")
+    st.info("Model Random Forest berhasil disimpan dan siap digunakan untuk inferensi")
 
 
 if __name__ == "__main__":
